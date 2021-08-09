@@ -81,6 +81,13 @@
 (unless (file-directory-p package-user-dir)
   (package-initialize)
   (package-refresh-contents)
+
+  ;; We need to bootstrap the keyring in order to install a few
+  ;; packages later
+  (setq  package-check-signature nil)
+  (package-install 'gnu-elpa-keyring-update)
+  (setq  package-check-signature 'allow-unsigned))
+  
   (package-install 'use-package))
 
 ;;; From now on, use-package installs everything
