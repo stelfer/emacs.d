@@ -34,8 +34,7 @@
       )
      ((eq system-type 'windows-nt)
       (progn
-	;; For whatever reason, the default path doesn't work
-	(setq package-gnupghome-dir "~/.emacs.d/elpa/gnupg")
+	;; FILL IN HERE
 	)))
     (setenv "PATH" (concat (getenv "PATH") (concat ":" gpg-path)))
     (add-to-list 'exec-path gpg-path))

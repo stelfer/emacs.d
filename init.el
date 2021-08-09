@@ -79,15 +79,27 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (unless (file-directory-p package-user-dir)
-  (package-initialize)
-  (package-refresh-contents)
+  ;; 
+  ;; Hard to believe this is as broken as it is.  In order to install
+  ;; some packages later, like pinentry, we need to have the updated
+  ;; gnu public key. That is available via the package
+  ;; `gnu-elpa-keyring-update`. However, this package won't be visible
+  ;; here unless we can validate the signature for the gnu
+  ;; archives. This means that we need to use the gpg infrastructure
+  ;; if it's installed. For some reason, `package-gnupghome-dir`
+  ;; doesn't follow paths absolutely. This means that we need to set
+  ;; the variable explicitly here. We also need to fix permissions for
+  ;; various versions of gpg
+  (setq package-gnupghome-dir "~/.emacs.d/elpa/gnupg")
+  (make-directory package-gnupghome-dir t)
+  (set-file-modes package-gnupghome-dir #o700)
 
-  ;; We need to bootstrap the keyring in order to install a few
-  ;; packages later
-  (setq  package-check-signature nil)
+  (package-initialize)
+
+  (setq  package-check-signature nil)  
+  (package-refresh-contents)
   (package-install 'gnu-elpa-keyring-update)
-  (setq  package-check-signature 'allow-unsigned))
-  
+  (setq  package-check-signature 'allow-unsigned)
   (package-install 'use-package))
 
 ;;; From now on, use-package installs everything
