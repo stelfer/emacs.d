@@ -238,3 +238,4 @@
 (require 'my-text-mode)
 (require 'my-org-mode)
 (require 'my-epg-mode)
+(require 'my-docker-mode)
