@@ -14,6 +14,15 @@
 ;;
 ;; $ gpgconf --reload gpg-agent
 
+;;;
+;;; From various kinds of advice from stackoverflow, break class in case we can't use pinentry
+;;; 
+(defun my/epg-fix-elpa-keyring ()
+  (interactive)
+  (setq  package-check-signature nil)
+  (package-reinstall 'gnu-elpa-keyring-update)
+  (setq  package-check-signature 'allow-unsigned))
+
 (use-package pinentry
   :ensure t)
 
@@ -34,13 +43,14 @@
       )
      ((eq system-type 'windows-nt)
       (progn
-	;; FILL IN HERE
+	;; For whatever reason, the default path doesn't work
+	(setq package-gnupghome-dir "~/.emacs.d/elpa/gnupg")
 	)))
     (setenv "PATH" (concat (getenv "PATH") (concat ":" gpg-path)))
     (add-to-list 'exec-path gpg-path))
 
   ;; per SO referenced above
-  (setq epg-pinentry-mode 'loopback)
-  (pinentry-start))
+  (setq epg-pinentry-mode 'loopback))
+
 
 (provide 'my-epg-mode)
