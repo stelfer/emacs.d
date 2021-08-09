@@ -100,7 +100,7 @@
   ;; doesn't follow paths absolutely. This means that we need to set
   ;; the variable explicitly here. We also need to fix permissions for
   ;; various versions of gpg
-  (setq package-gnupghome-dir "~/.emacs.d/elpa/gnupg")
+  (setq package-gnupghome-dir (expand-file-name "elpa/gnupg" user-emacs-directory))
   (make-directory package-gnupghome-dir t)
   (set-file-modes package-gnupghome-dir #o700)
 
