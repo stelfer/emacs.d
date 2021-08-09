@@ -62,6 +62,10 @@
 				       select-enable-primary 	t))))
 ;;; Emacs startup
 (add-hook 'emacs-startup-hook (lambda ()
+				;; Any global key remaps
+				(global-set-key (kbd "M-%") 'query-replace-regexp)
+				(global-set-key (kbd "C-<tab>") 'switch-to-buffer)
+				
 				(setq-default fill-column 80)
 				(setq default-directory	my/default-directory
 				      save-interprogram-paste-before-kill	t
@@ -83,8 +87,14 @@
 				      eshell-smart-space-goes-to-end 		t)
 				))
 
-;; Basic configuration
-	  
+;;; We may add to this as we go
+(define-prefix-command 'my-prog-mode-map)
+(add-hook 'prog-mode-hook
+	  (lambda()
+	    (linum-mode t)
+	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
+
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (unless (file-directory-p package-user-dir)
@@ -139,6 +149,7 @@
   :if window-system
   :ensure t
   :config
+  ;; If all-the-icons aren't loading, then run
   ;; (all-the-icons-install-fonts)
   )
 
@@ -165,11 +176,8 @@
   (use-package helm-xref :ensure t)
   (use-package helm-projectile
     :ensure t
-    ;; :bind (:map prog-mode-map ("C-<tab>" . helm-projectile-find-other-file))
-    )
-  
-  (helm-mode 1)
-  )
+    :bind (:map my-prog-mode-map ("b" . helm-projectile-find-other-file)))
+  (helm-mode 1))
 
 (use-package helm-descbinds
   :ensure t
@@ -209,26 +217,12 @@
 (use-package speed-type
   :ensure t)
 
-
-(define-prefix-command 'my-prog-mode-map)
-
 (use-package magit
   :ensure t
   :bind (:map my-prog-mode-map ("g" . magit-status)))
 
-
 (require 'ansi-color)
 (ansi-color-for-comint-mode-on)
-
-;;; Finished with generic configuration add keymaps
-(add-hook 'prog-mode-hook
-	  (lambda()
-	    (linum-mode t)
-	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
-
-;;; Any global key remaps
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-
 
 ;;; Load the optional configuration in lisp/
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
