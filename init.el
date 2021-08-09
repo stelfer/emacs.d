@@ -62,7 +62,6 @@
 				       select-enable-primary 	t))))
 ;;; Emacs startup
 (add-hook 'emacs-startup-hook (lambda ()
-				(put 'upcase-region 'disabled nil)
 				(setq-default fill-column 80)
 				(setq default-directory	my/default-directory
 				      save-interprogram-paste-before-kill	t
