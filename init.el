@@ -53,39 +53,45 @@
 	  mac-command-modifier 	'meta))
 
 ;;; Windowed
-(add-hook 'window-setup-hook (lambda ()
-			       (when (display-graphic-p)
-				 (windmove-default-keybindings)
-				 ;; (load-theme 'my-light)
-				 (setq visible-bell 		nil
-				       select-enable-clipboard 	t
-				       select-enable-primary 	t))))
+(add-hook 'window-setup-hook
+	  (lambda ()
+	    (when (display-graphic-p)
+	      (windmove-default-keybindings)
+	      ;; (load-theme 'my-light)
+	      (setq visible-bell 		nil
+		    select-enable-clipboard 	t
+		    select-enable-primary 	t))))
 ;;; Emacs startup
-(add-hook 'emacs-startup-hook (lambda ()
-				;; Any global key remaps
-				(global-set-key (kbd "M-%") 'query-replace-regexp)
-				(global-set-key (kbd "C-<tab>") 'switch-to-buffer)
-				
-				(setq-default fill-column 80)
-				(setq default-directory	my/default-directory
-				      save-interprogram-paste-before-kill	t
-				      apropos-do-all 			  	t
-				      mouse-yank-at-point 	       		t
-				      require-final-newline 			t
-				      load-prefer-newer 			t
-				      ediff-window-setup-function 'ediff-setup-windows-plain
-				      transient-mark-mode 			t
-				      linum-format 				"%4d "
-				      indent-tabs-mode 				nil
-				      comment-auto-fill-only-comments 		t
-				      font-lock-maximum-decoration 		t
-				      ad-redefinition-action 			'accept
-				      column-number-mode 			t
-				      max-mini-window-height 			1
-				      eshell-where-to-jump 			'begin
-				      eshell-review-quick-commands 		nil
-				      eshell-smart-space-goes-to-end 		t)
-				))
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    (setq-default fill-column 80)
+	    (setq default-directory			my/default-directory
+		  save-interprogram-paste-before-kill	t
+		  apropos-do-all 			t
+		  mouse-yank-at-point 	       		t
+		  require-final-newline 		t
+		  load-prefer-newer 			t
+		  ediff-window-setup-function 		'ediff-setup-windows-plain
+		  transient-mark-mode 			t
+		  linum-format 				"%4d "
+		  indent-tabs-mode 			nil
+		  comment-auto-fill-only-comments 	t
+		  font-lock-maximum-decoration 		t
+		  ad-redefinition-action 		'accept
+		  column-number-mode 			t
+		  max-mini-window-height 		1
+		  eshell-where-to-jump 			'begin
+		  eshell-review-quick-commands 		nil
+		  eshell-smart-space-goes-to-end 	t)
+	    ))
+
+;;; Put all global keys into our own map, then let global-map inherit
+(define-prefix-command 'my-global-mode-map)
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    (set-keymap-parent global-map 'my-global-mode-map)
+	    (define-key my-global-mode-map (kbd "M-%") 'query-replace-regexp)
+	    (define-key my-global-mode-map (kbd "C-<tab>") 'switch-to-buffer)))
 
 ;;; We may add to this as we go
 (define-prefix-command 'my-prog-mode-map)
