@@ -96,10 +96,16 @@
 
   (package-initialize)
 
-  (setq  package-check-signature nil)  
+  ;; If we try to refresh melpa too at this point, it seems to overrun
+  ;; the buffers, and untar of `gnu-elpa-keyring-update` transiently
+  ;; fails
+  (let ((package-archives '(("gnu" . "https://elpa.gnu.org/packages/"))))
+    (setq  package-check-signature nil)  
+    (package-refresh-contents nil)
+    (package-install 'gnu-elpa-keyring-update)
+    (setq  package-check-signature 'allow-unsigned))
+
   (package-refresh-contents)
-  (package-install 'gnu-elpa-keyring-update)
-  (setq  package-check-signature 'allow-unsigned)
   (package-install 'use-package))
 
 ;;; From now on, use-package installs everything
