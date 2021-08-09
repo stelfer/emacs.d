@@ -72,8 +72,14 @@
       (customize-save-variable 'my/serif-font "Georgia")
       (customize-save-variable 'my/sans-font "Verdana")
       (customize-save-variable 'my/fixed-font "Consolas")
-      ))
-   ))
+      )))
+
+  ;; If Hack is installed, use that before platform defaults
+  (if (find-font (font-spec :name "Hack"))
+      (customize-save-variable 'my/fixed-font "Hack"))
+  )
+
+
 (load custom-file)
 	  
 (require 'package)
