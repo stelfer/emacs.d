@@ -1,59 +1,13 @@
-
 ;; This here to reduce visual startup noise
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 
-;;; System-specific
-(cond
- ((eq system-type 'darwin)
-  (progn
-    (global-set-key [kp-delete] 'delete-char)
-    (setq mac-option-modifier 	'alt
-	  mac-command-modifier 	'meta)
-    (setq initial-frame-alist '((left . 0) (top . 0) (width . 100) (height . 60))))
-
-  )
- ((eq system-type 'windows-nt)
-  (progn
-    (add-to-list 'initial-frame-alist '(fullscreen . fullheight)))))
-
-;;; Windowed
-(add-hook 'window-setup-hook (lambda ()
-			       (when (display-graphic-p)
-				 (set-frame-font my/fixed-font t t)
-				 (windmove-default-keybindings)
-				 ;; (load-theme 'my-light)
-				 (setq-default fill-columnn 	100)
-				 (setq visible-bell 		nil
-				       select-enable-clipboard 	t
-				       select-enable-primary 	t))))
-
-;; Basic configuration
-(put 'upcase-region 'disabled nil)
-(setq save-interprogram-paste-before-kill	t
-      apropos-do-all 			  	t
-      mouse-yank-at-point 	       		t
-      require-final-newline 			t
-      load-prefer-newer 			t
-      ediff-window-setup-function 		'ediff-setup-windows-plain
-      transient-mark-mode 			t
-      linum-format 				"%4d "
-      indent-tabs-mode 				nil
-      comment-auto-fill-only-comments 		t
-      font-lock-maximum-decoration 		t
-      ad-redefinition-action 			'accept
-      column-number-mode 			t
-      max-mini-window-height 			1
-      eshell-where-to-jump 			'begin
-      eshell-review-quick-commands 		nil
-      eshell-smart-space-goes-to-end 		t)
-
 ;;; Keep custom variables in their own file, so we can VC this
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
+  ;; Bootstrap custom file
   (write-region "" nil custom-file)
-
   (cond
    ((eq system-type 'darwin)
     (progn
@@ -77,10 +31,60 @@
   ;; If Hack is installed, use that before platform defaults
   (if (find-font (font-spec :name "Hack"))
       (customize-save-variable 'my/fixed-font "Hack"))
+  
+  (customize-save-variable 'my/window-width 100)
+  (customize-save-variable 'my/window-initial-height 40)
+
+  (customize-save-variable 'my/default-directory "~/")
+  
   )
-
-
 (load custom-file)
+
+;;; Try to keep the window from hopping around too much, and set our fonts
+(when (window-system)
+  (set-frame-size (selected-frame) my/window-width my/window-initial-height)
+  (set-frame-parameter (selected-frame) 'fullscreen 'fullheight)
+  (set-frame-font my/fixed-font t t))
+
+;;; system-specific
+(when (eq system-type 'darwin)
+    (global-set-key [kp-delete] 'delete-char)
+    (setq mac-option-modifier 	'alt
+	  mac-command-modifier 	'meta))
+
+;;; Windowed
+(add-hook 'window-setup-hook (lambda ()
+			       (when (display-graphic-p)
+				 (windmove-default-keybindings)
+				 ;; (load-theme 'my-light)
+				 (setq visible-bell 		nil
+				       select-enable-clipboard 	t
+				       select-enable-primary 	t))))
+;;; Emacs startup
+(add-hook 'emacs-startup-hook (lambda ()
+				(put 'upcase-region 'disabled nil)
+				(setq-default fill-column 80)
+				(setq default-directory	my/default-directory
+				      save-interprogram-paste-before-kill	t
+				      apropos-do-all 			  	t
+				      mouse-yank-at-point 	       		t
+				      require-final-newline 			t
+				      load-prefer-newer 			t
+				      ediff-window-setup-function 'ediff-setup-windows-plain
+				      transient-mark-mode 			t
+				      linum-format 				"%4d "
+				      indent-tabs-mode 				nil
+				      comment-auto-fill-only-comments 		t
+				      font-lock-maximum-decoration 		t
+				      ad-redefinition-action 			'accept
+				      column-number-mode 			t
+				      max-mini-window-height 			1
+				      eshell-where-to-jump 			'begin
+				      eshell-review-quick-commands 		nil
+				      eshell-smart-space-goes-to-end 		t)
+				))
+
+;; Basic configuration
 	  
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
