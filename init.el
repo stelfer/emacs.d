@@ -132,6 +132,7 @@
 
   (package-refresh-contents)
   (package-install 'use-package))
+(package-initialize)
 
 ;;; From now on, use-package installs everything
 
