@@ -83,7 +83,7 @@
 		  eshell-where-to-jump 			'begin
 		  eshell-review-quick-commands 		nil
 		  eshell-smart-space-goes-to-end 	t)
-	    ))
+	    (global-font-lock-mode t)))
 
 ;;; Put all global keys into our own map, then let global-map inherit
 (define-prefix-command 'my-global-mode-map)
