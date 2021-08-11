@@ -5,3 +5,5 @@ transient
 recentf
 .last-package-update-day
 server
+.dap-breakpoints
+.lsp-session*
