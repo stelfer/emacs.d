@@ -25,10 +25,10 @@
   :ensure t
   :hook ((org-after-todo-statistics . my/org-summary-todo))
   :bind ((:map global-map
-	       ("C-c l" . #'org-store-link)
+	       ;; ("C-c l" . #'org-store-link)
 	       ("C-c a" . #'org-agenda)
-	       ("C-c c" . #'org-capture)
-	       ("C-c r" . #'my/org-archive-done-tasks)
+	       ;; ("C-c c" . #'org-capture)
+	       ;; ("C-c r" . #'my/org-archive-done-tasks)
 	       ))
   
   :config
