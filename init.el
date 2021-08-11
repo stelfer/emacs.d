@@ -87,12 +87,10 @@
 ;;; Windowed
 (add-hook 'window-setup-hook
 	  (lambda ()
-	    (when (display-graphic-p)
-	      (windmove-default-keybindings)
-	      ;; (load-theme 'my-light)
-	      (setq visible-bell 		nil
-		    select-enable-clipboard 	t
-		    select-enable-primary 	t))))
+            (windmove-default-keybindings)
+            (setq visible-bell 		nil
+                  select-enable-clipboard 	t
+                  select-enable-primary 	t)))
 ;;; Emacs startup
 (add-hook 'emacs-startup-hook
 	  (lambda ()
