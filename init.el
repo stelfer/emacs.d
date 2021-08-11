@@ -88,6 +88,7 @@
 ;;; Windowed
 (add-hook 'window-setup-hook
 	  (lambda ()
+            (load-theme 'wombat t)
             (windmove-default-keybindings)
             (setq visible-bell 		nil
                   select-enable-clipboard 	t
