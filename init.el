@@ -33,18 +33,50 @@
       (customize-save-variable 'my/fixed-font "Hack"))
   
   (customize-save-variable 'my/window-width 100)
-  (customize-save-variable 'my/window-initial-height 40)
+  (customize-save-variable 'my/window-height 60)
+  (customize-save-variable 'my/default-directory "~/"))
 
-  (customize-save-variable 'my/default-directory "~/")
-  
-  )
 (load custom-file)
 
-;;; Try to keep the window from hopping around too much, and set our fonts
-(when (window-system)
-  (set-frame-size (selected-frame) my/window-width my/window-initial-height)
-  (set-frame-parameter (selected-frame) 'fullscreen 'fullheight)
-  (set-frame-font my/fixed-font t t))
+;;;
+;;; Automatically chose font size based on dpi, then normalize on a 100x60
+;;; terminal This seems to give a good compromise of standardizing the display
+;;; qualities and not relying on the fullheight portability issues across
+;;; platforms and x11 server implementations
+;;; 
+
+(when (display-graphic-p)
+  (defun my/dpi ()
+    (let* ((attrs (car (display-monitor-attributes-list)))
+           (size (assoc 'mm-size attrs))
+           (sizex (cadr size))
+           (res (cdr (assoc 'geometry attrs)))
+           (resx (- (caddr res) (car res)))
+           dpi)
+      (catch 'exit
+        ;; in terminal
+        (unless sizex
+          (throw 'exit 10))
+        ;; on big screen
+        (when (> sizex 1000)
+          (throw 'exit 10))
+        ;; DPI
+        (* (/ (float resx) sizex) 25.4))))
+
+  (defun my/preferred-font-size ()
+    (let ( (dpi (my/dpi)) )
+      (cond
+       ((< dpi 110) 12)
+       ((< dpi 130) 13)
+       ((< dpi 160) 14)
+       ((< dpi 180) 16)
+       ((< dpi 200) 18)
+       (t 14))))
+  
+  (set-frame-font (format "%s-%d" my/fixed-font (my/preferred-font-size)) t t)
+  (set-frame-size (selected-frame) my/window-width my/window-height)
+
+  )
 
 ;;; system-specific
 (when (eq system-type 'darwin)
