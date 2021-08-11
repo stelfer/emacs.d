@@ -5,6 +5,7 @@
 	 (c-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred)
+  :bind (:map my-prog-mode-map (("<tab>" . lsp-format-region)))
   :config
   (setq gc-cons-threshold (* 100 1024 1024)
 	  read-process-output-max (* 1024 1024)
