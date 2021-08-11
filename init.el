@@ -34,16 +34,13 @@
   
   (customize-save-variable 'my/window-width 100)
   (customize-save-variable 'my/window-height 60)
-  (customize-save-variable 'my/screen-height 80)
   (customize-save-variable 'my/default-directory "~/"))
 
 (load custom-file)
 
 ;;;
-;;; Automatically chose font size based on dpi, then normalize on a 100x60
-;;; terminal This seems to give a good compromise of standardizing the display
-;;; qualities and not relying on the fullheight portability issues across
-;;; platforms and x11 server implementations
+;;; Automatically chose font size based on whether you are on a small screen
+;;; (laptop). Obviously is open to futher development.
 ;;; 
 ;;; For linux/x11 based windows, there three points of configuration
 ;;; 1) The X server itself. For Xwin, you can add the -dpi flag
@@ -71,19 +68,16 @@
         ;; DPI
         (* (/ (float resx) sizex) 25.4))))
 
-  (defun my/preferred-font-size (&optional cols)
+  (defun my/preferred-font-size ()
     (let* ((attrs (car (display-monitor-attributes-list)))
 	   (size (assoc 'mm-size attrs))
-	   (sizey (car  (cdr  (cdr size))))	; measured in mm
-	   (cols (or cols my/screen-height))	; height of screen in columns
+	   (sizex (car (cdr size)))	; measured in mm
 	   )
-      (floor
-       ;; A point is 1/72 of an inch
-       ;; Returns font-size in points
-       (* 72.0 (/ 1.0  cols) (/ sizey 25.4)))))
-  (set-frame-font (format "%s-%d" my/fixed-font (my/preferred-font-size)) t t)
-  (set-frame-size (selected-frame) my/window-width my/window-height))
-
+      (cond
+       ((< sizex 400) 14) 		; Anything less than 400mm wide
+       (t 12))))
+    (set-frame-font (format "%s-%d" my/fixed-font (my/preferred-font-size)) t t)
+    (set-frame-size (selected-frame) my/window-width my/window-height))
 
 ;;; system-specific
 (when (eq system-type 'darwin)
