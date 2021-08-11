@@ -213,7 +213,8 @@
   (use-package helm-xref :ensure t)
   (use-package helm-projectile
     :ensure t
-    :bind (:map my-prog-mode-map ("b" . helm-projectile-find-other-file)))
+    :bind (:map my-prog-mode-map (("b" . helm-projectile-find-other-file)
+				  ("C-f" . helm-projectile-find-file))))
   (helm-mode 1))
 
 (use-package helm-descbinds
