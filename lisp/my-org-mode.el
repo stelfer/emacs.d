@@ -38,7 +38,7 @@
 	org-treat-insert-todo-heading-as-state-change t
 	org-fontify-whole-heading-line t
 	org-fontify-whole-block-delimiter-line t
-	org-directory (concat my/user-home-directory "/shared/org")
+	org-directory "~/shared/org"
 	org-default-notes-file (concat org-directory "/notes.org")
 	org-outline-path-complete-in-steps nil         
 	org-refile-use-outline-path t
