@@ -34,7 +34,9 @@
   
   (customize-save-variable 'my/window-width 100)
   (customize-save-variable 'my/window-height 60)
-  (customize-save-variable 'my/default-directory "~/"))
+  (customize-save-variable 'my/default-directory "~/")
+  (customize-save-variable 'my/theme 'wombat))
+
 
 (load custom-file)
 
@@ -88,7 +90,7 @@
 ;;; Windowed
 (add-hook 'window-setup-hook
 	  (lambda ()
-            (load-theme 'wombat t)
+	    (load-theme my/theme t)
             (windmove-default-keybindings)
             (setq visible-bell 		nil
                   select-enable-clipboard 	t
@@ -273,3 +275,5 @@
 (require 'my-org-mode)
 (require 'my-epg-mode)
 (require 'my-docker-mode)
+(require 'my-theme-customization)
+
