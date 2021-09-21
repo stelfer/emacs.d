@@ -23,6 +23,8 @@
   (use-package dap-mode :ensure t)
   ;; (use-package dap-cpptools :ensure t)
   (use-package dap-cpptools)
+
+  (use-package flycheck :ensure t)
   
   (use-package yasnippet
     :ensure t
