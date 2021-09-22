@@ -35,7 +35,7 @@
   (customize-save-variable 'my/window-width 100)
   (customize-save-variable 'my/window-height 60)
   (customize-save-variable 'my/default-directory "~/")
-  (customize-save-variable 'my/theme 'wombat))
+  (customize-save-variable 'my/theme 'dark))
 
 
 (load custom-file)
@@ -279,5 +279,4 @@
 (require 'my-org-mode)
 (require 'my-epg-mode)
 (require 'my-docker-mode)
-(require 'my-theme-customization)
 
