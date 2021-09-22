@@ -235,6 +235,10 @@
   :ensure t
   :hook ((prog-mode . company-mode)))
 
+(use-package rainbow-mode
+  :ensure t
+  :hook ((prog-mode . rainbow-mode)))
+
 (use-package saveplace
   :ensure t
   :config
