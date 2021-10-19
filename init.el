@@ -87,6 +87,12 @@
     (setq mac-option-modifier 	'alt
 	  mac-command-modifier 	'meta))
 
+(when (or (eq system-type 'darwin)
+	  (eq system-type 'gnu/linux)
+	  (eq system-type 'cygwin))
+  (setenv "PATH" (concat (getenv "PATH") (concat ":" "/usr/local/bin")))
+  (add-to-list 'exec-path "/usr/local/bin"))
+
 ;;; Windowed
 (add-hook 'window-setup-hook
 	  (lambda ()
