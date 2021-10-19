@@ -116,7 +116,8 @@
 		  max-mini-window-height 		1
 		  eshell-where-to-jump 			'begin
 		  eshell-review-quick-commands 		nil
-		  eshell-smart-space-goes-to-end 	t)
+		  eshell-smart-space-goes-to-end 	t
+		  scroll-preserve-screen-position 	1)
 	    (global-font-lock-mode t)))
 
 ;;; Put all global keys into our own map, then let global-map inherit
@@ -125,7 +126,9 @@
 	  (lambda ()
 	    (set-keymap-parent global-map 'my-global-mode-map)
 	    (define-key my-global-mode-map (kbd "M-%") 'query-replace-regexp)
-	    (define-key my-global-mode-map (kbd "C-<tab>") 'switch-to-buffer)))
+	    (define-key my-global-mode-map (kbd "C-<tab>") 'switch-to-buffer)
+	    (define-key my-global-mode-map (kbd "M-n") (kbd "C-u 1 C-v"))
+	    (define-key my-global-mode-map (kbd "M-p") (kbd "C-u 1 M-v"))))
 
 ;;; We may add to this as we go
 (define-prefix-command 'my-prog-mode-map)
