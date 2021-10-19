@@ -8,3 +8,4 @@ server
 .dap-breakpoints
 .lsp-session*
 tramp
+.cache
