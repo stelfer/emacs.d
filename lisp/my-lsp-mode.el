@@ -32,6 +32,9 @@
     (yas-global-mode))
   
 
+  :init
+  (add-hook 'before-save-hook (lambda () (lsp-format-buffer)))
+  
   ;; (lsp-register-client
   ;;  (make-lsp-client :new-connection (lsp-tramp-connection "clangd-12")
   ;;                   :major-modes '(c-mode c++-mode)
