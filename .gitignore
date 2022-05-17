@@ -9,3 +9,5 @@ server
 .lsp-session*
 tramp
 .cache
+eln-cache/
+speed-type/
