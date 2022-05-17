@@ -189,12 +189,6 @@
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
-(use-package benchmark-init
-  :ensure t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
 (use-package all-the-icons
   :if window-system
   :ensure t
