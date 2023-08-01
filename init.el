@@ -109,12 +109,11 @@
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
-(use-package all-the-icons
-  :if window-system
+(use-package nerd-icons
+  :if (display-graphic-p)
   :ensure t
   :config
-  ;; If all-the-icons aren't loading, then run
-  ;; (all-the-icons-install-fonts)
+  ;; (nerd-icons-install-fonts)
   )
 
 (use-package doom-modeline

@@ -11,3 +11,5 @@ tramp
 .cache
 eln-cache/
 speed-type/
+eshell/
+projectile-bookmarks.eld
