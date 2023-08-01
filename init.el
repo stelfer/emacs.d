@@ -187,7 +187,24 @@
 
 (use-package magit
   :ensure t
-  :bind (:map my-prog-mode-map ("g" . magit-status)))
+  :bind (:map my-prog-mode-map ("g" . magit-status))
+  )
+
+(use-package forge
+  :ensure t
+  :after magit)
+
+(use-package magit-delta
+  :ensure t
+  :after magit
+  :hook (magit-mode . magit-delta-mode)
+  :config
+  (setq
+    magit-delta-default-dark-theme "Monokai Extended"
+    magit-delta-default-light-theme "Github"
+    magit-delta-hide-plus-minus-markers nil)
+  )
+
 
 (require 'ansi-color)
 (ansi-color-for-comint-mode-on)

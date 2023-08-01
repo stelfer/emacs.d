@@ -18,6 +18,7 @@
 (defvar-local *yellow*  "#e0f28a")
 (defvar-local *blue*    "#8ac6f2")
 (defvar-local *magenta* "#f28ac6")
+(defvar-local *pink*    "#fb94dc")
 (defvar-local *cyan*    "#8af2e9")
 (defvar-local *white*   *fg*)
 
@@ -72,7 +73,7 @@
    `(doom-modeline-buffer-file ((,class (:inherit mode-line :slant italic))))
    
    `(font-lock-comment-face ((,class (:extend t :foreground ,*inactive*))))
-   `(font-lock-function-name-face ((,class (:foreground ,*blue*))))
+   `(font-lock-function-name-face ((,class (:foreground ,*blue* ))))
    `(font-lock-string-face ((,class (:extend t :foreground ,*context*))))
    `(font-lock-keyword-face ((,class (:foreground ,*cyan*))))
    `(font-lock-constant-face ((,class (:foreground ,*orange*))))
@@ -85,9 +86,9 @@
    `(helm-ff-file-extension ((,class (:foreground ,*aqua*))))
 
    `(magit-diff-added ((,class (:foreground ,*green*))))
-   `(magit-diff-added-highlight ((,class (:foreground ,*fg-bright*))))
+   `(magit-diff-added-highlight ((,class (:foreground ,*fg*))))
    `(magit-diff-removed ((,class (:foreground ,*red*))))
-   `(magit-diff-removed-highlight ((,class (:foreground ,*fg-bright*))))
+   `(magit-diff-removed-highlight ((,class (:foreground ,*inactive*))))
    `(git-commit-summary ((,class (:foreground ,*fg*))))
 
    )
