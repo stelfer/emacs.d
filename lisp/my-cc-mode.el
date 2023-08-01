@@ -1,3 +1,5 @@
+(use-package cmake-mode
+  :ensure t)
 
 (use-package modern-cpp-font-lock
   :ensure t)
