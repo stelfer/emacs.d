@@ -6,6 +6,12 @@
 
 (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
 
+(use-package tree-sitter-langs :ensure t)
+(use-package tree-sitter :ensure t
+  :config
+  (tree-sitter-require 'cpp)
+)
+(add-hook 'c++-mode-hook #'tree-sitter-mode)
 
 ;;; In order to generate a emacs cc style, we use the trick here
 ;;; https://stackoverflow.com/a/39907217

@@ -135,12 +135,13 @@
 	helm-ff-search-library-in-sexp        t
 	helm-scroll-amount                    8
 	helm-ff-file-name-history-use-recentf t)
-  (use-package helm-config)
+;;  (use-package helm-config :ensure t)
   (use-package helm-xref :ensure t)
   (use-package helm-projectile
     :ensure t
     :bind (:map my-prog-mode-map (("b" . helm-projectile-find-other-file)
-				  ("C-f" . helm-projectile-find-file))))
+				  ("C-f" . helm-projectile-find-file)
+				  ("r" . eglot-rename))))
   (helm-mode 1))
 
 (use-package helm-descbinds
@@ -213,7 +214,7 @@
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
 (require 'my-cc-mode)
-(require 'my-lsp-mode)
+(require 'my-eglot-mode)
 (require 'my-text-mode)
 (require 'my-org-mode)
 (require 'my-epg-mode)
