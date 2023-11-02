@@ -18,7 +18,17 @@
             (windmove-default-keybindings)
             (setq visible-bell 		nil
                   select-enable-clipboard 	t
-                  select-enable-primary 	t)))
+                  select-enable-primary 	t)
+
+	    ;; Wayland clipboard workaround
+	    (when (and (getenv "WAYLAND_DISPLAY") (not (equal (getenv "GDK_BACKEND") "x11")))
+	      (setq
+	       interprogram-cut-function
+	       (lambda (text)
+		 "from https://github.com/microsoft/wslg/issues/15#issuecomment-1447561734"
+		 (start-process "wl-copy" nil "wl-copy" "--trim-newline" "--type" "text/plain;charset=utf-8"  text))))
+	    )
+	  )
 ;;; Emacs startup
 (add-hook 'emacs-startup-hook
 	  (lambda ()
@@ -58,7 +68,7 @@
 (define-prefix-command 'my-prog-mode-map)
 (add-hook 'prog-mode-hook
 	  (lambda()
-	    (linum-mode t)
+	    (display-line-numbers-mode)
 	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
 
@@ -92,13 +102,16 @@
     (setq  package-check-signature 'allow-unsigned))
 
   (package-refresh-contents)
-  (package-install 'use-package))
+  ;; (package-install 'use-package)
+  )
 (package-initialize)
 
 ;;; From now on, use-package installs everything
 
 (eval-when-compile 
-  (require 'use-package))
+  (require 'shortdoc)			  ;; This is missing for some reason???
+  (require 'use-package)
+  )
 
 (use-package auto-package-update
   :ensure t
@@ -107,6 +120,8 @@
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions nil)
   (setq auto-package-update-hide-results t)
+  (setq auto-package-update-prompt-before-update t)
+  (setq auto-package-update-show-preview t)  
   (auto-package-update-maybe))
 
 (use-package nerd-icons
