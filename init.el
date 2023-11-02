@@ -206,7 +206,6 @@
     magit-delta-hide-plus-minus-markers nil)
   )
 
-
 (require 'ansi-color)
 (ansi-color-for-comint-mode-on)
 
@@ -219,4 +218,6 @@
 (require 'my-org-mode)
 (require 'my-epg-mode)
 (require 'my-docker-mode)
+
+(setq auth-sources '("~/.authinfo.gpg"))
 
