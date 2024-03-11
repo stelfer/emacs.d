@@ -233,6 +233,7 @@
 (require 'my-org-mode)
 (require 'my-epg-mode)
 (require 'my-docker-mode)
+(require 'my-elfeed-mode)
 
 (setq auth-sources '("~/.authinfo.gpg"))
 
