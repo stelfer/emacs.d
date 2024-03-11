@@ -164,10 +164,10 @@
   :config
   (helm-descbinds-mode 1))
 
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
+;; (use-package which-key
+;;   :ensure t
+;;   :config
+;;   (which-key-mode))
 
 (use-package company
   :ensure t
