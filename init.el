@@ -217,7 +217,7 @@
   :config
   (setq
     magit-delta-default-dark-theme "Monokai Extended"
-    magit-delta-default-light-theme "Github"
+    magit-delta-default-light-theme "Monokai Extended Light"
     magit-delta-hide-plus-minus-markers nil)
   )
 
