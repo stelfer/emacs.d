@@ -27,7 +27,7 @@
 	   (count (length entries)))
       (when (y-or-n-p (format "Delete %d entires?" count))      
 	(cl-loop for entry in entries
-		 do (sk/elfeed-db-remove-entry (elfeed-entry-id entry)))))
+		 do (my/elfeed-db-remove-entry (elfeed-entry-id entry)))))
     (elfeed-search-update--force))
 
 
