@@ -1,14 +1,12 @@
+; For eglot, we need an LSP provider
+; on ubuntu
+; $ sudo apt install python3-pylsp
 
-;;; https://gist.github.com/habamax/290cda0e0cdc6118eb9a06121b9bc0d7
+(require 'my-tree-sitter)
+(tree-sitter-require 'python)
+(add-hook 'python-mode-hook #'tree-sitter-mode)
 
-;;; Require tree-sitter and compile the grammer if it is missing
-(cl-assert (treesit-available-p))
-(condition-case nil
-    (tree-sitter-require 'python)
-  (error
-   (treesit-install-language-grammar 'python)))
-
-(use-package python-ts-mode
+(use-package python-mode
   :bind (:map my-prog-mode-map (
 				("C-p" . run-python )
 				("C-c" . python-shell-send-buffer)
@@ -16,11 +14,9 @@
 				(">"   . python-indent-shift-right)
 				("<"   . python-indent-shift-left)
 				))
-  :init 
-  (setq major-mode-remap-alist
-	'((python-mode . python-ts-mode)))
+  :config 
   
-  (add-hook 'python-ts-mode-hook #'eglot-ensure)
+  (add-hook 'python-mode-hook #'eglot-ensure)
 
   (when (executable-find "ipython")
     (setq python-shell-interpreter "ipython"

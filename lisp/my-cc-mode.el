@@ -1,17 +1,16 @@
+
+(require 'my-tree-sitter)
+(tree-sitter-require 'cpp)
+(add-hook 'c++-mode-hook #'tree-sitter-mode)
+
 (use-package cmake-mode
   :ensure t)
 
 (use-package modern-cpp-font-lock
-  :ensure t)
-
-(add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-
-(use-package tree-sitter-langs :ensure t)
-(use-package tree-sitter :ensure t
+  :ensure t
   :config
-  (tree-sitter-require 'cpp)
-)
-(add-hook 'c++-mode-hook #'tree-sitter-mode)
+  (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
+
 
 ;;; In order to generate a emacs cc style, we use the trick here
 ;;; https://stackoverflow.com/a/39907217
