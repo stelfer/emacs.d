@@ -156,7 +156,8 @@
     :ensure t
     :bind (:map my-prog-mode-map (("b" . helm-projectile-find-other-file)
 				  ("C-f" . helm-projectile-find-file)
-				  ("r" . eglot-rename))))
+				  ;; ("C-p" . run-python )
+				  )))
   (helm-mode 1))
 
 (use-package helm-descbinds
@@ -234,6 +235,7 @@
 (require 'my-epg-mode)
 (require 'my-docker-mode)
 (require 'my-elfeed-mode)
+(require 'my-python-mode)
 
 (setq auth-sources '("~/.authinfo.gpg"))
 

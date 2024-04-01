@@ -17,4 +17,5 @@ forge-database*
 url/
 org-persist/
 network-security.data
+tree-sitter/
 
