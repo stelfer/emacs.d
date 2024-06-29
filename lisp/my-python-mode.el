@@ -6,6 +6,9 @@
 (tree-sitter-require 'python)
 (add-hook 'python-mode-hook #'tree-sitter-mode)
 
+(require 'my-eglot-mode)
+(add-hook 'python-mode-hook #'eglot-ensure)
+
 (use-package python-mode
   :bind (:map my-prog-mode-map (
 				("C-p" . run-python )
@@ -14,13 +17,12 @@
 				(">"   . python-indent-shift-right)
 				("<"   . python-indent-shift-left)
 				))
-  :config 
-  
-  (add-hook 'python-mode-hook #'eglot-ensure)
+  :init 
+  ;; (when (executable-find "ipython")
+  ;;   (setq python-shell-interpreter "ipython"
+  ;; 	  python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"
+  ;; 	  ))
 
-  (when (executable-find "ipython")
-    (setq python-shell-interpreter "ipython"
-	  python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"
-	  )))
+  )
 
 (provide 'my-python-mode)
