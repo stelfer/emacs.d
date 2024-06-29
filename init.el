@@ -72,65 +72,40 @@
 	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
 
 
-(require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-;; (add-to-list 'package-archives
-;;              '("melpa-stable" . "https://stable.melpa.org/packages/"))
-;; (unless (file-directory-p package-user-dir)
-;;   ;; 
-;;   ;; Hard to believe this is as broken as it is.  In order to install
-;;   ;; some packages later, like pinentry, we need to have the updated
-;;   ;; gnu public key. That is available via the package
-;;   ;; `gnu-elpa-keyring-update`. However, this package won't be visible
-;;   ;; here unless we can validate the signature for the gnu
-;;   ;; archives. This means that we need to use the gpg infrastructure
-;;   ;; if it's installed. For some reason, `package-gnupghome-dir`
-;;   ;; doesn't follow paths absolutely. This means that we need to set
-;;   ;; the variable explicitly here. We also need to fix permissions for
-;;   ;; various versions of gpg
-;;   (setq package-gnupghome-dir (expand-file-name "elpa/gnupg" user-emacs-directory))
-;;   (make-directory package-gnupghome-dir t)
-;;   (set-file-modes package-gnupghome-dir #o700)
-
-;;   (package-initialize)
-
-;;   ;; If we try to refresh melpa too at this point, it seems to overrun
-;;   ;; the buffers, and untar of `gnu-elpa-keyring-update` transiently
-;;   ;; fails
-;;   (let ((package-archives '(("gnu" . "https://elpa.gnu.org/packages/"))))
-;;     (setq  package-check-signature nil)  
-;;     (package-refresh-contents nil)
-;;     (package-install 'gnu-elpa-keyring-update)
-;;     (setq  package-check-signature 'allow-unsigned))
-
-;;   (package-refresh-contents)
-;;   ;; (package-install 'use-package)
-;;   )
-(package-initialize)
+;;; straight.el config
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;;; From now on, use-package installs everything
-
-(eval-when-compile 
-  (require 'shortdoc)			  ;; This is missing for some reason???
-  (require 'use-package)
-  )
-
-(use-package auto-package-update
-  :ensure t
-  :config
-  (setq auto-package-update-show-preview t)
-  (setq auto-package-update-prompt-before-update t)
-  (setq auto-package-update-delete-old-versions nil)
-  (setq auto-package-update-hide-results t)
-  (setq auto-package-update-prompt-before-update t)
-  (setq auto-package-update-show-preview t)  
-  (auto-package-update-maybe))
+(setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
 
 (use-package nerd-icons
-  :if (display-graphic-p)
-  :ensure t
-  :config
+  :straight (nerd-icons
+             :type git
+             :host github
+             :repo "rainstormstudio/nerd-icons.el"
+             :files (:defaults "data"))
+  :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  (nerd-icons-font-family "Symbols Nerd Font Mono")
   ;; (nerd-icons-install-fonts)
+  
   )
 
 (use-package doom-modeline
@@ -140,6 +115,7 @@
   (doom-modeline-mode 1))
 
 (use-package vertico
+  :ensure t
   :init
   (vertico-mode)
 
@@ -156,8 +132,19 @@
   ;; (setq vertico-cycle t)
   )
 
+(use-package recentf
+  :ensure t
+  ;; :bind (("C-x r" . recentf-open))
+  :config
+  (setq recentf-max-saved-items	200)
+  (add-to-list 'recentf-exclude ".*\\.tmp.*")
+  )
+
 (use-package consult
   :ensure t
+  :bind (("C-x b" . consult-buffer))
+  :init
+  (recentf-mode)
   :config
   (setq consult-narrow-key "<") ;; "C-+"
   )
@@ -205,38 +192,6 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-;; (use-package helm
-;;   :ensure t
-;;   :bind ((:map helm-map ("<tab>" . helm-execute-persistent-action))
-;; 	 (:map global-map
-;; 	       ([remap execute-extended-command] . #'helm-M-x)
-;; 	       ([remap find-file] . #'helm-find-files)
-;; 	       ([remap switch-to-buffer] . #'helm-mini)))
-;;   :config
-;;   (setq helm-split-window-in-side-p           nil
-;; 	helm-move-to-line-cycle-in-source     t
-;; 	helm-ff-search-library-in-sexp        t
-;; 	helm-scroll-amount                    8
-;; 	helm-ff-file-name-history-use-recentf t)
-;; ;;  (use-package helm-config :ensure t)
-;;   (use-package helm-xref :ensure t)
-;;   (use-package helm-projectile
-;;     :ensure t
-;;     :bind (:map my-prog-mode-map (("b" . helm-projectile-find-other-file)
-;; 				  ("C-f" . helm-projectile-find-file)
-;; 				  ;; ("C-p" . run-python )
-;; 				  )))
-;;   (helm-mode 1))
-
-;; (use-package helm-descbinds
-;;   :ensure t
-;;   :config
-;;   (helm-descbinds-mode 1))
-
-;; (use-package which-key
-;;   :ensure t
-;;   :config
-;;   (which-key-mode))
 
 (use-package corfu
   :ensure t
@@ -264,10 +219,6 @@
   (global-corfu-mode))
 
 
-;; (use-package company
-;;   :ensure t
-;;   :hook ((prog-mode . company-mode)))
-
 (use-package rainbow-mode
   :ensure t
   :hook ((prog-mode . rainbow-mode)))
@@ -278,13 +229,6 @@
   (setq-default save-place t)
   (setq save-place-file (concat user-emacs-directory "places")))
 
-(use-package recentf
-  :ensure t
-  :bind (("C-x r" . recentf-open))
-  :config
-  (setq recentf-max-saved-items	200)
-  (add-to-list 'recentf-exclude ".*\\.tmp.*")
-  )
 
 (use-package paredit
   :ensure t
@@ -323,6 +267,9 @@
 
 ;;; Load the optional configuration in lisp/
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+
+(use-package tree-sitter-langs
+  :ensure t)
 
 (require 'my-cc-mode)
 (require 'my-eglot-mode)
