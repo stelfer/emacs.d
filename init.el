@@ -247,10 +247,13 @@
 (use-package speed-type
   :ensure t)
 
+(use-package sqlite3
+  :ensure t)
+
 (use-package magit
   :ensure t
-  :bind (:map my-prog-mode-map ("g" . magit-status))
-  )
+  :after sqlite3
+  :bind (:map my-prog-mode-map ("g" . magit-status)))
 
 (use-package forge
   :ensure t
