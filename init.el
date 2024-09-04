@@ -64,12 +64,22 @@
 	    (define-key my-global-mode-map (kbd "M-n") (kbd "C-u 1 C-v"))
 	    (define-key my-global-mode-map (kbd "M-p") (kbd "C-u 1 M-v"))))
 
-;;; We may add to this as we go
+
+
+
+
+
+;;; For all prog modes
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+;;; For the modes I use my keymap
 (define-prefix-command 'my-prog-mode-map)
-(add-hook 'prog-mode-hook
-	  (lambda()
-	    (display-line-numbers-mode)
-	    (local-set-key (kbd "C-c") 'my-prog-mode-map)))
+
+(dolist (prog-hook '(emacs-lisp-mode-hook
+		     cpp-mode-hook))
+  (add-hook prog-hook (lambda ()
+			(local-set-key (kbd "C-c") 'my-prog-mode-map)))
+  )
 
 
 ;;; straight.el config
@@ -142,7 +152,10 @@
 
 (use-package consult
   :ensure t
-  :bind (("C-x b" . consult-buffer))
+  :bind (("C-x b" . consult-buffer)
+	 ("M-s l" . consult-line)
+	 ;; ("C-y" . consult-yank-from-kill-ring)
+	 )
   :init
   (recentf-mode)
   :config
@@ -199,13 +212,13 @@
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
-  (corfu-separator ?\s)          ;; Orderless field separator
-  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
-  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  (corfu-scroll-margin 5)        ;; Use scroll margin
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
   ;; Enable Corfu only for certain modes.
   ;; :hook ((prog-mode . corfu-mode)
@@ -268,8 +281,7 @@
 ;;; Load the optional configuration in lisp/
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
-(use-package tree-sitter-langs
-  :ensure t)
+(use-package tree-sitter-langs)
 
 (require 'my-cc-mode)
 (require 'my-eglot-mode)
@@ -283,5 +295,5 @@
 (require 'my-lean-mode)
 
 
-(setq auth-sources '("~/.authinfo.gpg"))
+;; (setq auth-sources '("~/.authinfo.gpg"))
 

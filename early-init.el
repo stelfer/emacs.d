@@ -1,4 +1,5 @@
 (setq inhibit-splash-screen t)
+(setq package-enable-at-startup nil)
 
 ;;; Keep custom variables in their own file, so we can VC this
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
