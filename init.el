@@ -19,14 +19,6 @@
             (setq visible-bell 		nil
                   select-enable-clipboard 	t
                   select-enable-primary 	t)
-
-	    ;; Wayland clipboard workaround
-	    (when (and (getenv "WAYLAND_DISPLAY") (not (equal (getenv "GDK_BACKEND") "x11")))
-	      (setq
-	       interprogram-cut-function
-	       (lambda (text)
-		 "from https://github.com/microsoft/wslg/issues/15#issuecomment-1447561734"
-		 (start-process "wl-copy" nil "wl-copy" "--trim-newline" "--type" "text/plain;charset=utf-8"  text))))
 	    )
 	  )
 ;;; Emacs startup
