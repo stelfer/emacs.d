@@ -18,4 +18,9 @@ url/
 org-persist/
 network-security.data
 tree-sitter/
+history
+lisp/lean4-mode
+projects
+straight/
+
 
