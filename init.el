@@ -44,7 +44,8 @@
 		  eshell-review-quick-commands 		nil
 		  eshell-smart-space-goes-to-end 	t
 		  scroll-preserve-screen-position 	1)
-	    (global-font-lock-mode t)))
+	    (global-font-lock-mode t)
+	    (global-visual-wrap-prefix-mode t)))
 
 ;;; Put all global keys into our own map, then let global-map inherit
 (define-prefix-command 'my-global-mode-map)
