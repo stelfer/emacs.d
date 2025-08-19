@@ -10,9 +10,13 @@
   ;; 				  ("C-f" . helm-projectile-find-file)))
   
   :init
+  (add-hook 'c++-mode-hook #'eglot-ensure)
+
+  :config
   (add-hook 'before-save-hook (lambda () (eglot-format-buffer)))
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
-  (add-hook 'c++-mode-hook #'eglot-ensure))
+
+  )
 
 (provide 'my-eglot-mode)
 
